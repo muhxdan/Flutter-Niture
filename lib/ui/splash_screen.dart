@@ -1,6 +1,7 @@
 import "dart:async";
 
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:niture_app/ui/home_screen.dart";
 
 class SplashScreen extends StatefulWidget {
@@ -14,27 +15,32 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     Timer(
       const Duration(seconds: 3),
-      () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ),
-      ),
+      () {
+        SystemChrome.setEnabledSystemUIMode(
+          SystemUiMode.manual,
+          overlays: SystemUiOverlay.values,
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ),
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: Image.asset(
-            "assets/images/logo_app.jpg",
-            width: 230,
-          ),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Image.asset(
+          "assets/images/logo_app.jpg",
+          width: 230,
         ),
       ),
     );
