@@ -9,6 +9,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Map<String, dynamic>> dataDummy = [
+    {
+      "name": "Furniture 1",
+      "description": "Desc",
+      "image": "assets/images/img_banner.png",
+    },
+    {
+      "name": "Furniture 2",
+      "description": "Desc",
+      "image": "assets/images/img_banner.png",
+    },
+    {
+      "name": "Furniture 3",
+      "description": "Desc",
+      "image": "assets/images/img_banner.png",
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +36,56 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               _buildHeader(),
-              _buildBanner(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildBanner(),
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          double screenWidth = constraints.maxWidth;
+
+                          int crossAxisCount;
+                          if (screenWidth <= 600.0) {
+                            crossAxisCount = 2;
+                          } else if (screenWidth <= 1200.0) {
+                            crossAxisCount = 4;
+                          } else {
+                            crossAxisCount = 6;
+                          }
+
+                          return GridView.count(
+                            crossAxisCount: crossAxisCount,
+                            crossAxisSpacing: 16.0,
+                            mainAxisSpacing: 16.0,
+                            shrinkWrap: true,
+                            physics: const ScrollPhysics(),
+                            children: dataDummy.map((place) {
+                              return InkWell(
+                                onTap: () {},
+                                child: Card(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Image.asset(
+                                        place["image"],
+                                        height: 100,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      Text(place["name"]),
+                                      Text(place["description"]),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
