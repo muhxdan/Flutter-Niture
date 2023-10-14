@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:niture_app/model/furniture_data.dart";
 import "package:niture_app/ui/detail_screen.dart";
+import "package:niture_app/ui/search_screen.dart";
 import "package:niture_app/utils/themes/styles.dart";
 
 class HomeScreen extends StatelessWidget {
@@ -14,7 +15,7 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
-              _buildHeader(),
+              _buildHeader(context),
               _buildListFurniture(),
             ],
           ),
@@ -184,7 +185,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Container _buildHeader() {
+  Container _buildHeader(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(bottom: 15.0),
       child: Row(
@@ -213,7 +214,14 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchScreen(),
+                ),
+              );
+            },
             icon: Image.asset(
               "assets/images/ic_search.png",
               width: 24.0,

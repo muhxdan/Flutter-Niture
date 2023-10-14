@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import "package:niture_app/model/furniture_data.dart";
+import "package:niture_app/ui/detail_screen.dart";
 import "package:niture_app/utils/themes/styles.dart";
 
 class SearchScreen extends StatefulWidget {
@@ -28,7 +30,9 @@ class _SearchScreenState extends State<SearchScreen> {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                     icon: const Icon(Icons.arrow_back_ios_new),
                     splashRadius: 20.0,
                   ),
@@ -86,9 +90,17 @@ class _SearchScreenState extends State<SearchScreen> {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
                       child: ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailScreen(
+                                  furnitureData: filteredFurnitureList[index]),
+                            ),
+                          );
+                        },
                         leading: Image.asset(
-                          "assets/images/me.jpg",
+                          filteredFurnitureList[index].image,
                           fit: BoxFit.cover,
                         ),
                         title: Padding(
