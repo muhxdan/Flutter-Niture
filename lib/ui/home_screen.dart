@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:niture_app/model/furniture_data.dart";
+import "package:niture_app/ui/detail_screen.dart";
 import "package:niture_app/utils/themes/styles.dart";
 
 class HomeScreen extends StatelessWidget {
@@ -51,7 +52,15 @@ class HomeScreen extends StatelessWidget {
                   children: furnitureList.map((furniture) {
                     return InkWell(
                       borderRadius: BorderRadius.circular(10.0),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                DetailScreen(furnitureData: furniture),
+                          ),
+                        );
+                      },
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),

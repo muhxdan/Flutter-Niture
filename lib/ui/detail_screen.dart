@@ -1,5 +1,6 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
+import "package:niture_app/model/furniture_data.dart";
 import "package:niture_app/utils/themes/styles.dart";
 
 class DetailScreen extends StatelessWidget {
