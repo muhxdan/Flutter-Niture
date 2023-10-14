@@ -1,4 +1,4 @@
-# niture_app
+# Niture App
 
 A new Flutter project.
 
