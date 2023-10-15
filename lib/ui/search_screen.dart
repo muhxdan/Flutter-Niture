@@ -46,9 +46,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         setState(() {
                           if (value.trim().isNotEmpty) {
                             filteredFurnitureList = furnitureList
-                                .where((furniture) => furniture.name
-                                    .toLowerCase()
-                                    .contains(value))
+                                .where((furniture) =>
+                                    furniture.name.contains(value))
                                 .toList();
                           } else {
                             searchController.text = "";

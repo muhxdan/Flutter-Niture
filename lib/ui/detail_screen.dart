@@ -10,6 +10,190 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth > 1100) {
+          return DetailScreenWeb(furnitureData: furnitureData);
+        } else {
+          return DetailScreenMobile(furnitureData: furnitureData);
+        }
+      },
+    );
+  }
+}
+
+class DetailScreenWeb extends StatelessWidget {
+  final FurnitureData furnitureData;
+
+  const DetailScreenWeb({super.key, required this.furnitureData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Container(
+      padding: const EdgeInsets.all(15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Image.asset(
+              furnitureData.image,
+              width: 500,
+              height: 400.0,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          SizedBox(
+            width: 400,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(15.0),
+                  child: Text(
+                    furnitureData.name,
+                    style: comfortaaTextStyle(
+                      fontSize: 20,
+                      fontWeight: comfortaaSemiBold,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(15.0, 15, 15.0, 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "\$${furnitureData.price}",
+                        style: comfortaaTextStyle(
+                          fontWeight: comfortaaBold,
+                          fontSize: 22,
+                        ),
+                      ),
+                      const ValueItem()
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xffF3F3F3),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  margin: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                color: Color(0xFFF2C94C),
+                              ),
+                              const SizedBox(
+                                width: 7.0,
+                              ),
+                              Text(
+                                "${furnitureData.rating}",
+                                style: comfortaaTextStyle(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          Text(
+                            "${furnitureData.totalReviews} Reviews",
+                            style: comfortaaTextStyle(
+                              color: const Color(0xFFAAAAAA),
+                            ),
+                          )
+                        ],
+                      ),
+                      const Expanded(
+                        child: SizedBox(
+                          height: 50.0,
+                          child: Stack(
+                            alignment: Alignment.centerRight,
+                            children: [
+                              Reviewer(
+                                right: 0.0,
+                                indexUrl: "1",
+                              ),
+                              Reviewer(right: 27.0, indexUrl: "2"),
+                              Reviewer(right: 56.0, indexUrl: "3"),
+                              Reviewer(right: 85.0, indexUrl: "4"),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
+                  child: Text(
+                    furnitureData.description,
+                    style: comfortaaTextStyle().copyWith(
+                      height: 1.3,
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      const FavoriteButton(
+                        padding: 17,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: CustomButton(
+                            widget: Text(
+                              "Add to bag",
+                              style: comfortaaTextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            padding: 20,
+                            onPressed: () {
+                              var snackBar = const SnackBar(
+                                  content: Text("Will be updated soon •ᴗ•"));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    ));
+  }
+}
+
+class DetailScreenMobile extends StatelessWidget {
+  final FurnitureData furnitureData;
+
+  const DetailScreenMobile({super.key, required this.furnitureData});
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -183,7 +367,7 @@ class CustomButton extends StatelessWidget {
     required this.widget,
     required this.onPressed,
     this.color = Colors.black,
-    this.padding = 0.0,
+    this.padding = 15.0,
   });
 
   @override
@@ -193,8 +377,7 @@ class CustomButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: color,
-        padding: EdgeInsets.symmetric(
-            vertical: (widget is Icon) ? padding : 15.0, horizontal: padding),
+        padding: EdgeInsets.symmetric(vertical: padding, horizontal: padding),
         minimumSize: Size.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -277,7 +460,8 @@ class _ValueItemState extends State<ValueItem> {
 }
 
 class FavoriteButton extends StatefulWidget {
-  const FavoriteButton({Key? key}) : super(key: key);
+  final double padding;
+  const FavoriteButton({Key? key, this.padding = 12}) : super(key: key);
 
   @override
   _FavoriteButtonState createState() => _FavoriteButtonState();
@@ -292,7 +476,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       widget: Icon(Icons.favorite,
           color: isFavorite ? const Color(0xFFFE4030) : Colors.white),
       onPressed: () => setState(() => isFavorite = !isFavorite),
-      padding: 12,
+      padding: widget.padding,
     );
   }
 }

@@ -11,14 +11,14 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              _buildHeader(context),
-              _buildListFurniture(),
-            ],
-          ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: _buildHeader(context),
+            ),
+            _buildListFurniture(),
+          ],
         ),
       ),
     );
@@ -33,32 +33,37 @@ class HomeScreen extends StatelessWidget {
             LayoutBuilder(
               builder: (context, constraints) {
                 double screenWidth = constraints.maxWidth;
-
                 int crossAxisCount;
-                if (screenWidth <= 600.0) {
+                if (screenWidth <= 330.0) {
+                  crossAxisCount = 1;
+                } else if (screenWidth <= 600.0) {
                   crossAxisCount = 2;
                 } else if (screenWidth <= 1200.0) {
-                  crossAxisCount = 4;
+                  crossAxisCount = 3;
                 } else {
                   crossAxisCount = 6;
                 }
 
-                return GridView.count(
-                  crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 10.0,
-                  childAspectRatio: (3 / 4.7),
+                return GridView.builder(
                   shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    mainAxisSpacing: 8.0,
+                    crossAxisSpacing: 8.0,
+                    mainAxisExtent: 290.0,
+                  ),
                   physics: const ScrollPhysics(),
-                  children: furnitureList.map((furniture) {
+                  padding: const EdgeInsets.all(8.0),
+                  itemCount: furnitureList.length,
+                  itemBuilder: (context, index) {
                     return InkWell(
                       borderRadius: BorderRadius.circular(10.0),
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                DetailScreen(furnitureData: furniture),
+                            builder: (context) => DetailScreen(
+                                furnitureData: furnitureList[index]),
                           ),
                         );
                       },
@@ -74,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
                                 child: Image.asset(
-                                  furniture.image,
+                                  furnitureList[index].image,
                                   fit: BoxFit.cover,
                                   height: 160,
                                 ),
@@ -89,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      furniture.name,
+                                      furnitureList[index].name,
                                       style: comfortaaTextStyle(
                                         fontWeight: comfortaaLight,
                                       ),
@@ -98,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                                       height: 15,
                                     ),
                                     Text(
-                                      "\$${furniture.price}",
+                                      "\$${furnitureList[index].price}",
                                       style: comfortaaTextStyle(
                                         fontWeight: comfortaaBold,
                                       ),
@@ -111,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     );
-                  }).toList(),
+                  },
                 );
               },
             )
@@ -129,6 +134,8 @@ class HomeScreen extends StatelessWidget {
       ),
       margin: const EdgeInsets.only(
         bottom: 20.0,
+        left: 20.0,
+        right: 20.0,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(
@@ -142,44 +149,41 @@ class HomeScreen extends StatelessWidget {
           alignment: Alignment.bottomCenter,
         ),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Text(
+            "Discover Furniture \nHigh Quality",
+            style: comfortaaTextStyle(
+              color: const Color(0xff4E5471),
+            ),
+          ),
+          const SizedBox(
+            height: 30.0,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                "Discover Furniture \nHigh Quality",
+                "70%",
+                style: comfortaaTextStyle(
+                  color: const Color(0xff4E5471),
+                  fontWeight: comfortaaBold,
+                  fontSize: 35.0,
+                ),
+              ),
+              const SizedBox(
+                width: 7.0,
+              ),
+              Text(
+                "off",
                 style: comfortaaTextStyle(
                   color: const Color(0xff4E5471),
                 ),
               ),
-              const SizedBox(
-                height: 30.0,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    "70%",
-                    style: comfortaaTextStyle(
-                      color: const Color(0xff4E5471),
-                      fontWeight: comfortaaBold,
-                      fontSize: 35.0,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 7.0,
-                  ),
-                  Text(
-                    "off",
-                    style: comfortaaTextStyle(
-                      color: const Color(0xff4E5471),
-                    ),
-                  ),
-                ],
-              )
             ],
-          ),
+          )
         ],
       ),
     );

@@ -56,7 +56,7 @@ var furnitureList = [
   FurnitureData(
     name: "Norrviken chair and table",
     price: "70",
-    image: "assets/images/img_simple_desk.png",
+    image: "assets/images/img_norrviken.png",
     description:
         "The Norrviken chair and table set is your go-to solution for outdoor relaxation. The comfortable chair and matching table are perfect for creating a cozy corner in your garden, patio, or balcony. Crafted from weather-resistant materials, they are designed to withstand the elements while providing you with a comfortable seating experience. Whether you want to enjoy a cup of coffee, read a book, or simply soak up the sun, this set offers both style and functionality for your outdoor space. The Norrviken chair and table set is your ticket to a tranquil outdoor retreat.",
     totalReviews: 43,
