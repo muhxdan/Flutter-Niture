@@ -1,6 +1,10 @@
 # Niture App
 
-A new Flutter project.
+<div style="display: flex;">
+  <img src="path/ss1.png" width="300">
+  <img src="path/ss2.png" width="300">
+  <img src="path/ss3.png" width="300">
+</div>
 
 ## Getting Started
 
